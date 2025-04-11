@@ -1,20 +1,44 @@
 import buttons from "../data/buttons";
 import Button from "./Button";
+import { useState } from "react";
+
+// Helper function to truncate the result to 5 decimal places
+const truncate = (value, decimalPlaces) => {
+  const factor = Math.pow(10, decimalPlaces);
+  return Math.trunc(value * factor) / factor;
+};
 
 export const Calculator = () => {
+  const [display, setDisplay] = useState("");
 
-    const hanleButtonClick = (label, type) => {
-        console.log(label, type);
-    };
+  const handleButtonClick = (label, type) => {
+    if (type === "function") {
+      if (label === "AC") {
+        setDisplay("");
+      } else if (label === "DE") {
+        setDisplay(display.slice(0, -1));
+      } else if (label === "=") {
+        // Evaluate the expression and truncate to 5 decimal places
+        const result = eval(display);
+        const truncatedResult = truncate(result, 5);
+        setDisplay(truncatedResult.toString());
+      }
+    } else if (type === "operator") {
+      setDisplay(display + label);
+    } else {
+      setDisplay(display + label);
+    }
+    console.log(display);
+  };
+
   return (
     <div className="w-[400px] h-[640px] bg-white rounded-xl p-4 flex flex-col">
       <p className="text-md font-bold">Calculator</p>
 
       <div
-        id="display"
-        className="w-full h-[82px] bg-gray-700 mt-2 rounded text-white p-2"
+        className="w-full h-[82px] bg-gray-700 mt-2 rounded text-white p-2 flex justify-end items-center"
       >
-        {/* Add your display logic here */}
+        <p className="text-5xl">{display}</p>
       </div>
 
       <div className="flex-1 mt-4">
@@ -25,7 +49,7 @@ export const Calculator = () => {
               label={btn.label}
               type={btn.type}
               span={btn.span}
-              onClick={hanleButtonClick}
+              onClick={handleButtonClick}
             />
           ))}
         </div>
@@ -33,3 +57,5 @@ export const Calculator = () => {
     </div>
   );
 };
+
+export default Calculator;

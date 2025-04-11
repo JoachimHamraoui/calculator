@@ -1,7 +1,7 @@
 const buttons = [
   { label: "DE", type: "function" },
   { label: "AC", type: "function" },
-  { label: ",", type: "value" },
+  { label: ".", type: "value" },
   { label: "/", type: "operator" },
 
   { label: "7", type: "value" },
